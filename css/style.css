@@ -1,0 +1,14 @@
+:root {
+  --maroon-dark: #3b0a14;
+  --maroon: #5c1020;
+  --pink: #f4b6c2;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--maroon-dark);
+  color: var(--pink);
+  font-family: "Times New Roman", serif;
+  display: grid;
+  place-items: center;
+}
