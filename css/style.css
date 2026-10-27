@@ -2,13 +2,130 @@
   --maroon-dark: #3b0a14;
   --maroon: #5c1020;
   --pink: #f4b6c2;
+
+  --paper: #c8a779;
+  --paper-light: #d8bb91;
+  --paper-edge: #8a6a42;
+  --ink: #3a2412;
+  --rule: rgba(92, 16, 32, 0.28);
+  --margin-line: rgba(180, 60, 85, 0.55);
+
+  --line-height: 32px;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--maroon-dark);
+  background: radial-gradient(ellipse at top, var(--maroon) 0%, var(--maroon-dark) 70%);
   color: var(--pink);
-  font-family: "Times New Roman", serif;
-  display: grid;
-  place-items: center;
+  font-family: "Times New Roman", Times, serif;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+}
+
+.tagline {
+  margin: 0.4rem 0 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* ---------- Notebook page ---------- */
+.notebook {
+  position: relative;
+  width: min(760px, 100%);
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 1.5rem 5.5rem;
+  background:
+    radial-gradient(ellipse at center, var(--paper-light) 0%, var(--paper) 75%, #b89462 100%);
+  border: 1px solid var(--paper-edge);
+  border-radius: 4px 10px 10px 4px;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.55),
+    inset 0 0 60px rgba(90, 55, 20, 0.35);
+  color: var(--ink);
+}
+
+/* Binding holes down the left edge */
+.notebook::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18px;
+  width: 22px;
+  background-image: radial-gradient(circle, var(--maroon-dark) 0 7px, transparent 8px);
+  background-size: 22px 90px;
+  background-repeat: repeat-y;
+  background-position: center 30px;
+}
+
+/* Red margin line */
+.notebook::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 66px;
+  width: 2px;
+  background: var(--margin-line);
+}
+
+/* ---------- Letter parts ---------- */
+.letter-header {
+  min-height: calc(var(--line-height) * 3);
+  /* Step 3 will fill this with Date / From / To */
+}
+
+.letter-body {
+  display: block;
+  width: 100%;
+  min-height: calc(var(--line-height) * 16);
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: vertical;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--line-height) - 1px),
+    var(--rule) calc(var(--line-height) - 1px),
+    var(--rule) var(--line-height)
+  );
+  background-attachment: local;
+  color: var(--ink);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  line-height: var(--line-height);
+}
+
+.letter-body::placeholder {
+  color: rgba(58, 36, 18, 0.5);
+  font-style: italic;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 520px) {
+  .notebook {
+    padding-left: 4rem;
+  }
+  .notebook::before { left: 10px; }
+  .notebook::after  { left: 50px; }
 }
