@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>From My Heart to Yours</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Dancing+Script:wght@500&family=Libre+Baskerville&family=Source+Sans+3&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="site-header">
@@ -13,23 +16,32 @@
   </header>
 
   <main>
-    <article class="notebook">
+    <div class="style-picker" role="group" aria-label="Text style">
+      <button type="button" class="style-btn is-active" data-style="classic" aria-pressed="true">Classic</button>
+      <button type="button" class="style-btn" data-style="signature" aria-pressed="false">Signature</button>
+      <button type="button" class="style-btn" data-style="editor" aria-pressed="false">Editor</button>
+      <button type="button" class="style-btn" data-style="typewriter" aria-pressed="false">Typewriter</button>
+      <button type="button" class="style-btn" data-style="elegant" aria-pressed="false">Elegant</button>
+      <button type="button" class="style-btn" data-style="literature" aria-pressed="false">Literature</button>
+    </div>
+
+    <article class="notebook" data-style="classic">
       <div class="letter-header">
-  <div class="field field-date">
-    <label for="letter-date">Date</label>
-    <input type="date" id="letter-date">
-  </div>
+        <div class="field field-date">
+          <label for="letter-date">Date</label>
+          <input type="date" id="letter-date">
+        </div>
 
-  <div class="field">
-    <label for="letter-to">To</label>
-    <input type="text" id="letter-to" placeholder="Who is this letter for?" maxlength="60">
-  </div>
+        <div class="field">
+          <label for="letter-to">To</label>
+          <input type="text" id="letter-to" placeholder="Who is this letter for?" maxlength="60">
+        </div>
 
-  <div class="field">
-    <label for="letter-from">From</label>
-    <input type="text" id="letter-from" placeholder="Your name" maxlength="60">
-  </div>
-</div>
+        <div class="field">
+          <label for="letter-from">From</label>
+          <input type="text" id="letter-from" placeholder="Your name" maxlength="60">
+        </div>
+      </div>
 
       <textarea
         class="letter-body"

@@ -118,7 +118,7 @@ body {
   outline: none;
   background: transparent;
   color: var(--ink);
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--letter-font);
   font-size: 12pt;
   line-height: 1;
 }
@@ -161,7 +161,7 @@ body {
   );
   background-attachment: local;
   color: var(--ink);
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--letter-font);
   font-size: 12pt;
   line-height: var(--line-height);
 }
@@ -170,7 +170,58 @@ body {
   color: rgba(58, 36, 18, 0.5);
   font-style: italic;
 }
+/* ---------- Text styles ---------- */
+.notebook {
+  --letter-font: "Times New Roman", Times, serif;
+}
+.notebook[data-style="signature"]  { --letter-font: "Dancing Script", cursive; }
+.notebook[data-style="editor"]     { --letter-font: "Source Sans 3", Arial, sans-serif; }
+.notebook[data-style="typewriter"] { --letter-font: "Special Elite", "Courier New", monospace; }
+.notebook[data-style="elegant"]    { --letter-font: "Cormorant Garamond", Georgia, serif; }
+.notebook[data-style="literature"] { --letter-font: "Libre Baskerville", Georgia, serif; }
 
+/* ---------- Style picker ---------- */
+.style-picker {
+  width: min(760px, 100%);
+  margin: 0 auto 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.style-btn {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--pink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pink);
+  font-size: 12pt;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.style-btn:hover {
+  background: rgba(244, 182, 194, 0.18);
+}
+
+.style-btn.is-active {
+  background: var(--pink);
+  color: var(--maroon-dark);
+}
+
+.style-btn:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+/* Each button previews its own font */
+.style-btn[data-style="classic"]    { font-family: "Times New Roman", Times, serif; }
+.style-btn[data-style="signature"]  { font-family: "Dancing Script", cursive; }
+.style-btn[data-style="editor"]     { font-family: "Source Sans 3", Arial, sans-serif; }
+.style-btn[data-style="typewriter"] { font-family: "Special Elite", "Courier New", monospace; }
+.style-btn[data-style="elegant"]    { font-family: "Cormorant Garamond", Georgia, serif; }
+.style-btn[data-style="literature"] { font-family: "Libre Baskerville", Georgia, serif; }
 /* ---------- Small screens ---------- */
 @media (max-width: 520px) {
   .notebook {
