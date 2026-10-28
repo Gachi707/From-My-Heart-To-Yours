@@ -9,14 +9,27 @@
 <body>
   <header class="site-header">
     <h1>From My Heart to Yours</h1>
-    <p class="tagline">Write a letter. Send it with love.</p>
+    <p class="tagline">Every letter is how long I thought of you.</p>
   </header>
 
   <main>
     <article class="notebook">
       <div class="letter-header">
-        <!-- Step 3: Date, From and To fields go here -->
-      </div>
+  <div class="field field-date">
+    <label for="letter-date">Date</label>
+    <input type="date" id="letter-date">
+  </div>
+
+  <div class="field">
+    <label for="letter-to">To</label>
+    <input type="text" id="letter-to" placeholder="Who is this letter for?" maxlength="60">
+  </div>
+
+  <div class="field">
+    <label for="letter-from">From</label>
+    <input type="text" id="letter-from" placeholder="Your name" maxlength="60">
+  </div>
+</div>
 
       <textarea
         class="letter-body"
