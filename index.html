@@ -23,9 +23,15 @@
       <button type="button" class="style-btn" data-style="typewriter" aria-pressed="false">Typewriter</button>
       <button type="button" class="style-btn" data-style="elegant" aria-pressed="false">Elegant</button>
       <button type="button" class="style-btn" data-style="literature" aria-pressed="false">Literature</button>
-    </div>
+    </div>  <div class="photo-actions">
+  <button type="button" class="photo-btn" id="add-photo">Add recipient's photo</button>
+  <button type="button" class="photo-btn" id="remove-photo" hidden>Remove photo</button>
+  <input type="file" id="photo-input" accept="image/*" hidden>
+  <p class="photo-error" id="photo-error" role="alert" hidden></p>
+</div>
 
     <article class="notebook" data-style="classic">
+        <div class="photo-layer" id="photo-layer" aria-hidden="true"></div>
       <div class="letter-header">
         <div class="field field-date">
           <label for="letter-date">Date</label>

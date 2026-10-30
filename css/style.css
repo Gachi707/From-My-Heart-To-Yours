@@ -119,7 +119,7 @@ body {
   background: transparent;
   color: var(--ink);
   font-family: var(--letter-font);
-  font-size: 12pt;
+  font-size: var(--letter-size);
   line-height: 1;
 }
 
@@ -162,7 +162,7 @@ body {
   background-attachment: local;
   color: var(--ink);
   font-family: var(--letter-font);
-  font-size: 12pt;
+  font-size: var(--letter-size);
   line-height: var(--line-height);
 }
 
@@ -173,11 +173,12 @@ body {
 /* ---------- Text styles ---------- */
 .notebook {
   --letter-font: "Times New Roman", Times, serif;
+  --letter-size: 12pt;
 }
-.notebook[data-style="signature"]  { --letter-font: "Dancing Script", cursive; }
+.notebook[data-style="signature"]  { --letter-font: "Dancing Script", cursive; --letter-size: 16pt; }
 .notebook[data-style="editor"]     { --letter-font: "Source Sans 3", Arial, sans-serif; }
 .notebook[data-style="typewriter"] { --letter-font: "Special Elite", "Courier New", monospace; }
-.notebook[data-style="elegant"]    { --letter-font: "Cormorant Garamond", Georgia, serif; }
+.notebook[data-style="elegant"]    { --letter-font: "Cormorant Garamond", Georgia, serif; --letter-size: 14pt; }
 .notebook[data-style="literature"] { --letter-font: "Libre Baskerville", Georgia, serif; }
 
 /* ---------- Style picker ---------- */
@@ -229,4 +230,75 @@ body {
   }
   .notebook::before { left: 10px; }
   .notebook::after  { left: 50px; }
+}
+/* ---------- Faded recipient photo ---------- */
+.photo-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s;
+  filter: sepia(0.7) contrast(0.9);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 85%);
+}
+
+.photo-layer.has-photo {
+  opacity: 0.4;
+}
+
+/* Keep writing above the photo */
+.letter-header,
+.letter-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Photo buttons ---------- */
+.photo-actions {
+  width: min(760px, 100%);
+  margin: 0 auto 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.photo-btn {
+  padding: 0.3rem 0.9rem;
+  border: 1px dashed var(--pink);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--pink);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.photo-btn:hover {
+  background: rgba(244, 182, 194, 0.18);
+}
+
+.photo-btn:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+.photo-actions [hidden] {
+  display: none;
+}
+
+.photo-error {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  color: #ffd0d8;
 }
