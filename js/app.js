@@ -1,38 +1,65 @@
-// Default the letter's date to today (in the user's local time)
-const dateInput = document.getElementById("letter-date");
+// =====================================================
+// From My Heart to Yours
+// =====================================================
 
-if (dateInput && !dateInput.value) {
-  const now = new Date();
-  const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-  dateInput.value = local.toISOString().slice(0, 10);
-}
-// ---------- Text style picker ----------
+const STORAGE_KEY = "fmhty-letter-v1";
+
+// ---------- Elements ----------
 const notebook = document.querySelector(".notebook");
+const dateInput = document.getElementById("letter-date");
+const toInput = document.getElementById("letter-to");
+const fromInput = document.getElementById("letter-from");
+const bodyInput = document.querySelector(".letter-body");
+
 const styleButtons = document.querySelectorAll(".style-btn");
 
-styleButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    notebook.dataset.style = button.dataset.style;
-
-    styleButtons.forEach((other) => {
-      const isActive = other === button;
-      other.classList.toggle("is-active", isActive);
-      other.setAttribute("aria-pressed", String(isActive));
-    });
-  });
-});
-// ---------- Recipient photo ----------
 const photoLayer = document.getElementById("photo-layer");
 const photoInput = document.getElementById("photo-input");
 const addPhotoBtn = document.getElementById("add-photo");
 const removePhotoBtn = document.getElementById("remove-photo");
 const photoError = document.getElementById("photo-error");
 
+const newLetterBtn = document.getElementById("new-letter");
+const saveStatus = document.getElementById("save-status");
+
+// ---------- Letter data ----------
+const letterState = { photo: null };
+
+// ---------- Helpers ----------
+function todayString() {
+  const now = new Date();
+  const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+}
+
+function showStatus(message) {
+  saveStatus.textContent = message;
+}
+
+// ---------- Text style ----------
+function applyStyle(name) {
+  const known = Array.from(styleButtons).some((b) => b.dataset.style === name);
+  const chosen = known ? name : "classic";
+
+  notebook.dataset.style = chosen;
+
+  styleButtons.forEach((button) => {
+    const isActive = button.dataset.style === chosen;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+styleButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    applyStyle(button.dataset.style);
+    saveLetter();
+  });
+});
+
+// ---------- Recipient photo ----------
 const MAX_SIDE = 400;      // longest side in pixels
 const JPEG_QUALITY = 0.55; // smaller = lighter link
-
-// Holds the letter's data; later steps will save and share from here
-const letterState = { photo: null };
 
 function shrinkImage(file) {
   return new Promise((resolve, reject) => {
@@ -81,6 +108,7 @@ photoInput.addEventListener("change", async () => {
 
   try {
     setPhoto(await shrinkImage(file));
+    saveLetter();
   } catch (error) {
     photoError.textContent = error.message;
     photoError.hidden = false;
@@ -89,4 +117,87 @@ photoInput.addEventListener("change", async () => {
   photoInput.value = ""; // lets you pick the same file again
 });
 
-removePhotoBtn.addEventListener("click", () => setPhoto(null));
+removePhotoBtn.addEventListener("click", () => {
+  setPhoto(null);
+  saveLetter();
+});
+
+// ---------- Save and load ----------
+function getLetter() {
+  return {
+    date: dateInput.value,
+    to: toInput.value,
+    from: fromInput.value,
+    body: bodyInput.value,
+    style: notebook.dataset.style,
+    photo: letterState.photo,
+  };
+}
+
+function saveLetter() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getLetter()));
+    showStatus("Saved on this device");
+  } catch (error) {
+    showStatus("Couldn't save: browser storage is full or blocked");
+  }
+}
+
+let saveTimer;
+function scheduleSave() {
+  showStatus("Saving...");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveLetter, 400);
+}
+
+function loadLetter() {
+  let saved = null;
+
+  try {
+    saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    saved = null;
+  }
+
+  if (!saved || typeof saved !== "object") {
+    dateInput.value = todayString();
+    applyStyle("classic");
+    setPhoto(null);
+    return;
+  }
+
+  dateInput.value = saved.date || todayString();
+  toInput.value = saved.to || "";
+  fromInput.value = saved.from || "";
+  bodyInput.value = saved.body || "";
+  applyStyle(saved.style);
+  setPhoto(saved.photo || null);
+  showStatus("Draft restored");
+}
+
+[dateInput, toInput, fromInput, bodyInput].forEach((field) => {
+  field.addEventListener("input", scheduleSave);
+});
+
+// ---------- New letter ----------
+newLetterBtn.addEventListener("click", () => {
+  const ok = confirm("Start a new letter? Your current draft will be cleared.");
+  if (!ok) return;
+
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    // nothing to remove if storage is blocked
+  }
+
+  dateInput.value = todayString();
+  toInput.value = "";
+  fromInput.value = "";
+  bodyInput.value = "";
+  applyStyle("classic");
+  setPhoto(null);
+  showStatus("");
+});
+
+// ---------- Start ----------
+loadLetter();
