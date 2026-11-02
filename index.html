@@ -16,6 +16,10 @@
   </header>
 
   <main>
+    <div class="reading-banner" id="reading-banner" hidden>
+  <p>A letter has been sent to you</p>
+  <button type="button" class="photo-btn" id="write-own">Write my own letter</button>
+</div>
     <div class="style-picker" role="group" aria-label="Text style">
       <button type="button" class="style-btn is-active" data-style="classic" aria-pressed="true">Classic</button>
       <button type="button" class="style-btn" data-style="signature" aria-pressed="false">Signature</button>
@@ -55,7 +59,20 @@
         class="letter-body"
         placeholder="My dearest..."
         aria-label="Write your letter"></textarea>
-    </article>
+    </article><section class="share-panel" id="share-panel">
+  <label class="share-option">
+    <input type="checkbox" id="share-include-photo" checked>
+    Include the photo in the link
+  </label>
+  <button type="button" class="photo-btn" id="create-link">Create share link</button>
+
+  <div class="share-result" id="share-result" hidden>
+    <input type="text" id="share-link" readonly aria-label="Share link">
+    <button type="button" class="photo-btn" id="copy-link">Copy link</button>
+  </div>
+
+  <p class="share-note" id="share-note" role="status" aria-live="polite"></p>
+</section>
   </main>
 
   <script src="js/app.js"></script>

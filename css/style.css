@@ -312,3 +312,83 @@ body {
   font-style: italic;
   opacity: 0.75;
 }
+/* ---------- Share panel ---------- */
+.share-panel {
+  width: min(760px, 100%);
+  margin: 1.5rem auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.share-option {
+  font-size: 12pt;
+  cursor: pointer;
+}
+
+.share-option input {
+  accent-color: var(--pink);
+}
+
+.share-result {
+  flex-basis: 100%;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.share-result[hidden] {
+  display: none;
+}
+
+.share-result input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--pink);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--pink);
+  font-size: 11pt;
+}
+
+.share-note {
+  flex-basis: 100%;
+  min-height: 1.2em;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* ---------- Reading a shared letter ---------- */
+.reading-banner {
+  width: min(760px, 100%);
+  margin: 0 auto 1.2rem;
+  text-align: center;
+}
+
+.reading-banner[hidden] {
+  display: none;
+}
+
+.reading-banner p {
+  margin: 0 0 0.6rem;
+  font-size: 16pt;
+  font-style: italic;
+}
+
+.reading .style-picker,
+.reading .photo-actions,
+.reading .share-panel {
+  display: none;
+}
+
+.reading .letter-body {
+  resize: none;
+}
+
+.reading .field-date input {
+  pointer-events: none;
+}
