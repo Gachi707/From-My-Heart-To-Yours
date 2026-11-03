@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>From My Heart to Yours</title>
+  <meta name="description" content="Write a love letter and send it as a private link.">
+<meta name="theme-color" content="#3b0a14">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +21,11 @@
   <main>
     <div class="reading-banner" id="reading-banner" hidden>
   <p>A letter has been sent to you</p>
-  <button type="button" class="photo-btn" id="write-own">Write my own letter</button>
+  <div class="banner-buttons">
+    <button type="button" class="photo-btn" id="reply-btn">Write a reply</button>
+    <button type="button" class="photo-btn" id="write-own">Write my own letter</button>
+    <button type="button" class="photo-btn" data-print>Print this letter</button>
+  </div>
 </div>
     <div class="style-picker" role="group" aria-label="Text style">
       <button type="button" class="style-btn is-active" data-style="classic" aria-pressed="true">Classic</button>
@@ -65,7 +72,8 @@
     Include the photo in the link
   </label>
   <button type="button" class="photo-btn" id="create-link">Create share link</button>
-
+  <button type="button" class="photo-btn" data-print>Print letter</button>
+  
   <div class="share-result" id="share-result" hidden>
     <input type="text" id="share-link" readonly aria-label="Share link">
     <button type="button" class="photo-btn" id="copy-link">Copy link</button>

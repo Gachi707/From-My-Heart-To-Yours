@@ -378,6 +378,7 @@ async function openSharedLetter(encoded) {
       field.readOnly = true;
     });
 
+      autosizeBody();
     return true;
   } catch (error) {
     return false;
@@ -390,6 +391,66 @@ writeOwnBtn.addEventListener("click", () => {
 });
 
 window.addEventListener("hashchange", () => location.reload());
+// ---------- Printing and tall letters ----------
+function autosizeBody() {
+  bodyInput.style.height = "auto";
+  bodyInput.style.height = bodyInput.scrollHeight + "px";
+}
+
+// A text box can't print past its own height, so grow it first
+window.addEventListener("beforeprint", autosizeBody);
+window.addEventListener("afterprint", () => {
+  if (!readingMode) bodyInput.style.height = "";
+});
+
+// Re-measure when fonts finish loading or the window changes size
+if (document.fonts) {
+  document.fonts.ready.then(() => {
+    if (readingMode) autosizeBody();
+  });
+}
+window.addEventListener("resize", () => {
+  if (readingMode) autosizeBody();
+});
+
+document.querySelectorAll("[data-print]").forEach((button) => {
+  button.addEventListener("click", () => window.print());
+});
+
+// ---------- Write a reply ----------
+const replyBtn = document.getElementById("reply-btn");
+
+replyBtn.addEventListener("click", () => {
+  let existing = null;
+  try {
+    existing = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    existing = null;
+  }
+
+  const hasDraft = existing && typeof existing.body === "string" && existing.body.trim();
+  if (hasDraft && !confirm("Writing a reply will replace the draft saved on this device. Continue?")) {
+    return;
+  }
+
+  const reply = {
+    date: todayString(),
+    to: fromInput.value,   // the sender becomes the recipient
+    from: toInput.value,   // and the recipient becomes the sender
+    body: "",
+    style: notebook.dataset.style,
+    photo: null,
+  };
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(reply));
+  } catch (error) {
+    // if storage is blocked, the reply simply opens blank
+  }
+
+  history.replaceState(null, "", location.pathname + location.search);
+  location.reload();
+});
 
 // ---------- Start ----------
 async function start() {
